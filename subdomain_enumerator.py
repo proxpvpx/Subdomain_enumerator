@@ -4,11 +4,10 @@ import sys
 import threading
 from queue import Queue
 
-# Wordlist for subdomain brute-forcing
-wordlist = ["www", "mail", "api", "dev", "ftp", "staging", "blog", "test", "shop"]
-
-# Target domain
-target_domain = "example.com"
+# Read wordlist from file (rockyou.txt or your preferred wordlist)
+def load_wordlist(file_path):
+    with open(file_path, 'r') as f:
+        return [line.strip() for line in f.readlines()]
 
 # Threading for faster resolution
 q = Queue()
@@ -36,6 +35,10 @@ def brute_force_subdomains():
 # Main function to start enumeration
 def start_enumeration():
     print(f"[*] Starting subdomain enumeration for {target_domain}...\n")
+    
+    # Load wordlist from a file (e.g., /usr/share/wordlists/rockyou.txt)
+    wordlist_file = "/usr/share/SecLists/Discovery/DNS/subdomains-top1million-110000.txt"
+    wordlist = load_wordlist(wordlist_file)
     
     # Queue all the subdomains for brute-forcing
     for subdomain in wordlist:
